@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vihanga Mahagedara — IT Professional</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080c10;
+      --bg2: #0d1117;
+      --bg3: #131a24;
+      --accent: #00d4ff;
+      --accent2: #0099cc;
+      --gold: #f0a500;
+      --text: #e8edf2;
+      --muted: #6b7f91;
+      --border: rgba(0,212,255,0.12);
+      --glow: rgba(0,212,255,0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── Cursor ── */
+    .cursor {
+      width: 10px; height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed; pointer-events: none;
+      z-index: 9999; transform: translate(-50%,-50%);
+      transition: transform .08s, width .2s, height .2s, opacity .2s;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(0,212,255,0.5);
+      border-radius: 50%;
+      position: fixed; pointer-events: none;
+      z-index: 9998; transform: translate(-50%,-50%);
+      transition: transform .18s cubic-bezier(.22,1,.36,1), width .3s, height .3s;
+    }
+
+    /* ── Noise overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: .4;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      padding: 1.2rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 100;
+      background: linear-gradient(180deg, rgba(8,12,16,.95) 0%, transparent 100%);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: color .2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width .3s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 6rem 3rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+    }
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0,212,255,.1) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      pointer-events: none;
+    }
+    .hero-content {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 4rem;
+      position: relative; z-index: 1; width: 100%;
+    }
+    .hero-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem; color: var(--accent);
+      letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: 1rem;
+      opacity: 0; animation: fadeUp .6s .2s forwards;
+    }
+    .hero-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
+      line-height: 0.95;
+      letter-spacing: 4px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--accent2) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      opacity: 0; animation: fadeUp .6s .35s forwards;
+    }
+    .hero-role {
+      margin-top: 1rem;
+      font-size: 1rem; color: var(--muted);
+      letter-spacing: 1px;
+      opacity: 0; animation: fadeUp .6s .5s forwards;
+    }
+    .hero-desc {
+      margin-top: 1.5rem;
+      font-size: .95rem; color: #8fa0b0;
+      max-width: 460px; line-height: 1.8;
+      opacity: 0; animation: fadeUp .6s .65s forwards;
+    }
+    .hero-cta {
+      margin-top: 2.5rem; display: flex; gap: 1rem;
+      opacity: 0; animation: fadeUp .6s .8s forwards;
+    }
+    .btn {
+      padding: .75rem 2rem;
+      font-size: .8rem; font-family: 'DM Sans', sans-serif;
+      letter-spacing: 2px; text-transform: uppercase;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all .25s;
+      cursor: pointer; border: none;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: var(--accent); color: var(--bg);
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+    .btn-primary:hover {
+      background: #fff;
+      box-shadow: 0 0 30px rgba(0,212,255,.5);
+      transform: translateY(-2px);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+    .btn-outline:hover {
+      background: rgba(0,212,255,.08);
+      box-shadow: 0 0 20px rgba(0,212,255,.2);
+      transform: translateY(-2px);
+    }
+
+    /* Hero photo */
+    .hero-photo-wrap {
+      display: flex; justify-content: center;
+      opacity: 0; animation: fadeIn .8s .4s forwards;
+    }
+    .hero-photo-frame {
+      position: relative;
+      width: 320px; height: 380px;
+    }
+    .hero-photo-frame::before {
+      content: '';
+      position: absolute; inset: -2px;
+      background: linear-gradient(135deg, var(--accent), transparent 50%, var(--gold));
+      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+    }
+    .hero-photo-inner {
+      position: absolute; inset: 2px;
+      background: var(--bg3);
+      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-photo-inner img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: grayscale(20%) contrast(1.05);
+    }
+    .hero-photo-placeholder {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 6rem; color: var(--muted);
+      opacity: .3; letter-spacing: 5px;
+    }
+    .hero-badge {
+      position: absolute; bottom: -14px; right: -14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: .6rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem; color: var(--accent);
+      letter-spacing: 1.5px;
+    }
+
+    /* ── Sections ── */
+    section { padding: 6rem 3rem; position: relative; }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem; color: var(--accent);
+      letter-spacing: 4px; text-transform: uppercase;
+      margin-bottom: .75rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      letter-spacing: 3px;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 3rem;
+    }
+    .section-divider {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      margin-bottom: 3rem;
+    }
+
+    /* ── Skills ── */
+    #skills { background: var(--bg2); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .skill-card {
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      background: var(--bg3);
+      position: relative; overflow: hidden;
+      transition: border-color .3s, transform .3s;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+    }
+    .skill-card::before {
+      content: '';
+      position: absolute; top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0,212,255,.05), transparent);
+      transition: left .5s;
+    }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .skill-card:hover::before { left: 100%; }
+    .skill-icon { font-size: 1.6rem; margin-bottom: .75rem; }
+    .skill-name {
+      font-size: .85rem; font-weight: 500;
+      color: var(--text); letter-spacing: .5px;
+    }
+
+    /* ── Experience ── */
+    #experience { background: var(--bg); }
+    .timeline { position: relative; padding-left: 2.5rem; }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, var(--accent), transparent);
+    }
+    .timeline-item {
+      position: relative; margin-bottom: 3rem;
+      opacity: 0; transform: translateX(-20px);
+      transition: opacity .5s, transform .5s;
+    }
+    .timeline-item.visible { opacity: 1; transform: none; }
+    .timeline-dot {
+      position: absolute; left: -2.5rem;
+      width: 10px; height: 10px;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      border-radius: 50%;
+      top: .4rem;
+      box-shadow: 0 0 12px var(--accent);
+    }
+    .timeline-period {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem; color: var(--accent);
+      letter-spacing: 2px; margin-bottom: .4rem;
+    }
+    .timeline-role {
+      font-size: 1.1rem; font-weight: 500; color: var(--text);
+      letter-spacing: .5px;
+    }
+    .timeline-company {
+      font-size: .85rem; color: var(--muted);
+      margin-top: .2rem;
+    }
+
+    /* ── Education ── */
+    #education { background: var(--bg2); }
+    .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+    .edu-card {
+      border: 1px solid var(--border);
+      padding: 2rem;
+      background: var(--bg);
+      position: relative; overflow: hidden;
+      transition: border-color .3s, transform .3s;
+    }
+    .edu-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--gold));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .4s;
+    }
+    .edu-card:hover { border-color: rgba(0,212,255,.3); transform: translateY(-4px); }
+    .edu-card:hover::after { transform: scaleX(1); }
+    .edu-degree { font-size: 1rem; font-weight: 500; color: var(--text); margin-bottom: .5rem; }
+    .edu-uni { font-size: .85rem; color: var(--accent); }
+    .edu-badge {
+      display: inline-block;
+      margin-top: .75rem;
+      padding: .2rem .7rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem; color: var(--muted);
+      border: 1px solid var(--border);
+      letter-spacing: 1px;
+    }
+
+    /* ── Contact ── */
+    #contact {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-info p {
+      font-size: .9rem; color: #8fa0b0; line-height: 1.9;
+      margin-bottom: 2rem;
+    }
+    .contact-links { display: flex; flex-direction: column; gap: .75rem; }
+    .contact-link {
+      display: flex; align-items: center; gap: 1rem;
+      text-decoration: none; color: var(--muted);
+      font-size: .85rem;
+      transition: color .2s; padding: .5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-link:hover { color: var(--accent); }
+    .contact-link-icon {
+      width: 36px; height: 36px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+      transition: border-color .2s, background .2s;
+    }
+    .contact-link:hover .contact-link-icon {
+      border-color: var(--accent);
+      background: rgba(0,212,255,.08);
+    }
+
+    /* Contact form */
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: .4rem; }
+    .form-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem; color: var(--muted);
+      letter-spacing: 2px; text-transform: uppercase;
+    }
+    .form-input, .form-textarea {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: .75rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .9rem;
+      outline: none;
+      transition: border-color .2s;
+      width: 100%;
+    }
+    .form-input:focus, .form-textarea:focus { border-color: var(--accent); }
+    .form-textarea { resize: vertical; min-height: 120px; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-copy {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem; color: var(--muted);
+      letter-spacing: 1.5px;
+    }
+    .footer-accent { color: var(--accent); }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
+    /* ── Projects ── */
+    #projects { background: var(--bg3); }
+    .projects-filter {
+      display: flex; gap: .75rem; flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .filter-btn {
+      padding: .4rem 1.2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem; letter-spacing: 2px; text-transform: uppercase;
+      border: 1px solid var(--border);
+      background: transparent; color: var(--muted);
+      cursor: pointer; transition: all .2s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      border-color: var(--accent); color: var(--accent);
+      background: rgba(0,212,255,.07);
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      position: relative; overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      transition: border-color .3s, transform .35s;
+      cursor: pointer;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-6px); }
+    .project-thumb {
+      width: 100%; aspect-ratio: 16/10;
+      overflow: hidden; position: relative;
+    }
+    .project-thumb img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .5s, filter .5s;
+      filter: grayscale(20%);
+    }
+    .project-card:hover .project-thumb img { transform: scale(1.06); filter: grayscale(0%); }
+    .project-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(8,12,16,.92) 100%);
+      display: flex; align-items: flex-end;
+      padding: 1rem;
+      opacity: 0; transition: opacity .3s;
+    }
+    .project-card:hover .project-overlay { opacity: 1; }
+    .project-overlay-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem; letter-spacing: 2px;
+      color: var(--accent); text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--accent);
+      padding: .35rem .9rem;
+    }
+    .project-info { padding: 1rem 1.2rem 1.2rem; }
+    .project-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .6rem; color: var(--accent);
+      letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: .4rem;
+    }
+    .project-name {
+      font-size: .9rem; font-weight: 500;
+      color: var(--text); line-height: 1.4;
+    }
+    .projects-more {
+      text-align: center; margin-top: 3rem;
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .6s, transform .6s;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── Status dot ── */
+    .status-dot {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem; color: #4ade80;
+      margin-top: 1rem;
+    }
+    .status-dot::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: #4ade80; border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(74,222,128,.5); }
+      50% { opacity: .6; box-shadow: 0 0 0 6px rgba(74,222,128,0); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .hero-content { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+      .hero-photo-wrap { order: -1; }
+      .hero-photo-frame { width: 220px; height: 260px; }
+      .hero-desc { margin: 1.5rem auto; }
+      .hero-cta { justify-content: center; }
+      .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Nav -->
+  <nav>
+    <a href="#hero" class="nav-logo">VM</a>
+    <ul class="nav-links">
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div>
+        <div class="hero-tag">// IT Professional · Sri Lanka</div>
+        <h1 class="hero-name">Vihanga<br>Mahagedara</h1>
+        <p class="hero-role">Software Engineer &amp; Web Developer</p>
+        <p class="hero-desc">
+          Enthusiastic IT professional with expertise in Software Development, Web Development,
+          Digital Marketing, Graphic Designing, Networking, and IT Support — building
+          innovative digital solutions across domains.
+        </p>
+        <div class="status-dot">Available for opportunities</div>
+        <div class="hero-cta">
+          <a href="#experience" class="btn btn-primary">View Work</a>
+          <a href="#contact" class="btn btn-outline">Get In Touch</a>
+        </div>
+      </div>
+      <div class="hero-photo-wrap">
+        <div class="hero-photo-frame">
+          <div class="hero-photo-inner">
+            <div class="hero-photo-placeholder">VM</div>
+          </div>
+          <div class="hero-badge">// IT PRO · 2022–PRESENT</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-label">02 // Expertise</div>
+      <h2 class="section-title">Skills &amp;<br>Capabilities</h2>
+      <div class="skills-grid">
+        <div class="skill-card reveal">
+          <div class="skill-icon">💻</div>
+          <div class="skill-name">Software Development</div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">🌐</div>
+          <div class="skill-name">Web Development &amp; Designing</div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">🗄️</div>
+          <div class="skill-name">Database Management</div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">🔌</div>
+          <div class="skill-name">Networking &amp; IT Support</div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">🔧</div>
+          <div class="skill-name">System Analysis &amp; Troubleshooting</div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">📈</div>
+          <div class="skill-name">Digital Marketing &amp; SEO</div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">🎨</div>
+          <div class="skill-name">UI/UX Design &amp; Prototyping</div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">📋</div>
+          <div class="skill-name">Project Coordination &amp; Technical Documentation</div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">🖨️</div>
+          <div class="skill-name">POS Systems &amp; Computer Hardware</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-label">03 // Portfolio</div>
+      <h2 class="section-title">Featured<br>Projects</h2>
+      <div class="projects-filter">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="web">Web Dev</button>
+        <button class="filter-btn" data-filter="ui">UI/UX</button>
+      </div>
+      <div class="projects-grid">
+
+        <div class="project-card reveal" data-cat="ui">
+          <div class="project-thumb">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/404/171e75248370083.Y3JvcCw5OTQsNzc3LDAsMA.jpg" alt="UI Designing for MindThree Engineering" loading="lazy">
+            <div class="project-overlay">
+              <a class="project-overlay-link" href="https://www.behance.net/gallery/248370083/UI-Designing-for-MindThree-Engineering" target="_blank">View Project ↗</a>
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-tag">UI Design</div>
+            <div class="project-name">MindThree Engineering</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" data-cat="web">
+          <div class="project-thumb">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/404/0e2a2e248369841.Y3JvcCw5NzAsNzU5LDEyOSww.jpg" alt="Kurikara Hiromi Japanese School" loading="lazy">
+            <div class="project-overlay">
+              <a class="project-overlay-link" href="https://www.behance.net/gallery/248369841/Kurikara-Hiromi-Japanese-School-Web-Development" target="_blank">View Project ↗</a>
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-tag">Web Development</div>
+            <div class="project-name">Kurikara Hiromi Japanese School</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" data-cat="web">
+          <div class="project-thumb">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/404/aab4a7246519223.Y3JvcCwxOTIwLDE1MDEsMCww.png" alt="Cute and Fluffy" loading="lazy">
+            <div class="project-overlay">
+              <a class="project-overlay-link" href="https://www.behance.net/gallery/246519223/Cute-and-Fluffy-Web-Development" target="_blank">View Project ↗</a>
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-tag">Web Development</div>
+            <div class="project-name">Cute and Fluffy</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" data-cat="web">
+          <div class="project-thumb">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/404/80ac18246519117.Y3JvcCwxOTIwLDE1MDEsMCww.png" alt="Swamp Billy Official" loading="lazy">
+            <div class="project-overlay">
+              <a class="project-overlay-link" href="https://www.behance.net/gallery/246519117/Swamp-billy-Official-Web-Development" target="_blank">View Project ↗</a>
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-tag">Web Development</div>
+            <div class="project-name">Swamp Billy Official</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" data-cat="web">
+          <div class="project-thumb">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/404/dfda19246518901.Y3JvcCwxOTE3LDE0OTksMCww.png" alt="Maurice & Co" loading="lazy">
+            <div class="project-overlay">
+              <a class="project-overlay-link" href="https://www.behance.net/gallery/246518901/Maurice-Co-Web-Development" target="_blank">View Project ↗</a>
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-tag">Web Development</div>
+            <div class="project-name">Maurice &amp; Co</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" data-cat="web">
+          <div class="project-thumb">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/404/e14e86246518743.Y3JvcCwxOTIwLDE1MDEsMCww.png" alt="Shan Tour Lanka" loading="lazy">
+            <div class="project-overlay">
+              <a class="project-overlay-link" href="https://www.behance.net/gallery/246518743/Shan-Tour-Lanka-Web-Development" target="_blank">View Project ↗</a>
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-tag">Web Development</div>
+            <div class="project-name">Shan Tour Lanka</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" data-cat="web">
+          <div class="project-thumb">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/404/69390a246456761.Y3JvcCwxOTIwLDE1MDEsMCww.png" alt="AB Island Tours & Travels" loading="lazy">
+            <div class="project-overlay">
+              <a class="project-overlay-link" href="https://www.behance.net/gallery/246456761/AB-Island-Tours-Travels-Web-Development" target="_blank">View Project ↗</a>
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-tag">Web Development</div>
+            <div class="project-name">AB Island Tours &amp; Travels</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" data-cat="web">
+          <div class="project-thumb">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/404/4f993b246456391.Y3JvcCwxOTIwLDE1MDEsMCww.png" alt="Rangala House" loading="lazy">
+            <div class="project-overlay">
+              <a class="project-overlay-link" href="https://www.behance.net/gallery/246456391/Rangala-House-Web-Development" target="_blank">View Project ↗</a>
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-tag">Web Development</div>
+            <div class="project-name">Rangala House</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" data-cat="web">
+          <div class="project-thumb">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/404/177153232646171.Y3JvcCwxMTIzLDg3OCwxNDEsMTA1.png" alt="YummyFoods.lk" loading="lazy">
+            <div class="project-overlay">
+              <a class="project-overlay-link" href="https://www.behance.net/gallery/232646171/The-YummyFoodslk-landing-page" target="_blank">View Project ↗</a>
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-tag">Web Development</div>
+            <div class="project-name">YummyFoods.lk Landing Page</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" data-cat="ui">
+          <div class="project-thumb">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/404/54e273232574301.Y3JvcCwxMDIyLDc5OSwxODcsMTM2.png" alt="ECOBIN Waste Management" loading="lazy">
+            <div class="project-overlay">
+              <a class="project-overlay-link" href="https://www.behance.net/gallery/232574301/ECOBIN-Waste-Management-App-Design" target="_blank">View Project ↗</a>
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-tag">UI/UX · App Design</div>
+            <div class="project-name">ECOBIN Waste Management App</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" data-cat="ui">
+          <div class="project-thumb">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/404/ed1a25232572859.Y3JvcCwxMTQ1LDg5NiwxMTksNDg.png" alt="MYSLT Login Page" loading="lazy">
+            <div class="project-overlay">
+              <a class="project-overlay-link" href="https://www.behance.net/gallery/232572859/Login-page-for-MYSLT-WEB-Portal" target="_blank">View Project ↗</a>
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-tag">UI/UX Design</div>
+            <div class="project-name">MYSLT Web Portal — Login Page</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" data-cat="ui">
+          <div class="project-thumb">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/404/55a7a4232571821.Y3JvcCwxMTIzLDg3OCwxMzgsMA.png" alt="MY SLT Web Portal" loading="lazy">
+            <div class="project-overlay">
+              <a class="project-overlay-link" href="https://www.behance.net/gallery/232571821/MY-SLT-WEB-Portal-Re-Design-Project" target="_blank">View Project ↗</a>
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-tag">UI/UX · Re-Design</div>
+            <div class="project-name">MY SLT Web Portal Re-Design</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" data-cat="ui">
+          <div class="project-thumb">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/404/8108aa232518727.Y3JvcCwxNDQwLDExMjYsMCww.png" alt="CBC Cosmetics" loading="lazy">
+            <div class="project-overlay">
+              <a class="project-overlay-link" href="https://www.behance.net/gallery/232518727/CBC-Cosmetics-brand-web-design" target="_blank">View Project ↗</a>
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-tag">UI/UX · Brand Design</div>
+            <div class="project-name">CBC Cosmetics Brand Web Design</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" data-cat="ui">
+          <div class="project-thumb">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/404/eba857232518009.Y3JvcCwxMjU1LDk4MiwxMjcsMA.png" alt="Travelify" loading="lazy">
+            <div class="project-overlay">
+              <a class="project-overlay-link" href="https://www.behance.net/gallery/232518009/Landing-Page-Design-Travelify" target="_blank">View Project ↗</a>
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-tag">UI/UX · Landing Page</div>
+            <div class="project-name">Travelify Landing Page Design</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="projects-more">
+        <a href="https://www.behance.net/vhmh3/" target="_blank" class="btn btn-outline">View All on Behance ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-label">04 // Career</div>
+      <h2 class="section-title">Experience</h2>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-period">2025 — PRESENT</div>
+          <div class="timeline-role">Web Developer</div>
+          <div class="timeline-company">Vision Designing · Sarasota, FL, USA</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-period">2025</div>
+          <div class="timeline-role">Trainee Software Engineer</div>
+          <div class="timeline-company">Sri Lanka Telecom · Colombo</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-period">2022 — PRESENT</div>
+          <div class="timeline-role">IT Executive</div>
+          <div class="timeline-company">Kynix Technologies (Pvt) Ltd · Kandy</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-period">2021</div>
+          <div class="timeline-role">IT Support</div>
+          <div class="timeline-company">Engineering Design Center · Faculty of Engineering, University of Peradeniya</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section id="education">
+    <div class="container">
+      <div class="section-label">05 // Academic</div>
+      <h2 class="section-title">Education</h2>
+      <div class="edu-grid">
+        <div class="edu-card reveal">
+          <div class="edu-degree">Higher Diploma in Computing and Software Engineering</div>
+          <div class="edu-uni">Cardiff Metropolitan University · UK</div>
+          <div class="edu-badge">COMPLETED</div>
+        </div>
+        <div class="edu-card reveal">
+          <div class="edu-degree">Bachelor of Software Engineering (Hons)</div>
+          <div class="edu-uni">Open University of Sri Lanka</div>
+          <div class="edu-badge">READING</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-label">06 // Connect</div>
+      <h2 class="section-title">Get In Touch</h2>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p>
+            I'm always open to exciting new projects, collaborations,
+            and opportunities. Whether you have a question or just want
+            to say hello — my inbox is open!
+          </p>
+          <div class="contact-links">
+            <a class="contact-link" href="tel:+94753928664">
+              <div class="contact-link-icon">📞</div>
+              +9475 392 8664
+            </a>
+            <a class="contact-link" href="mailto:vihanganimash836@gmail.com">
+              <div class="contact-link-icon">✉️</div>
+              vihanganimash836@gmail.com
+            </a>
+            <a class="contact-link" href="https://linkedin.com/in/vihanga-nimash-97013121a/" target="_blank">
+              <div class="contact-link-icon">🔗</div>
+              LinkedIn Profile
+            </a>
+            <a class="contact-link" href="#">
+              <div class="contact-link-icon">📍</div>
+              Kiribathkumbura, Sri Lanka
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="contact-form">
+            <div class="form-group">
+              <label class="form-label">Name</label>
+              <input class="form-input" type="text" placeholder="Your name" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input class="form-input" type="email" placeholder="your@email.com" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Message</label>
+              <textarea class="form-textarea" placeholder="Tell me about your project..."></textarea>
+            </div>
+            <button class="btn btn-primary" style="align-self:flex-start">Send Message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-copy">© 2025 <span class="footer-accent">Vihanga Mahagedara</span> · All rights reserved</div>
+    <div class="footer-copy">Built with <span class="footer-accent">♥</span> · Sri Lanka</div>
+  </footer>
+
+  <script>
+    // Project filter
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const filter = this.dataset.filter;
+        document.querySelectorAll('.project-card').forEach(card => {
+          const match = filter === 'all' || card.dataset.cat === filter;
+          card.style.display = match ? '' : 'none';
+        });
+      });
+    });
+
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+    function animRing() {
+      rx += (mx - rx) * .12; ry += (my - ry) * .12;
+      ring.style.left = rx+'px'; ring.style.top = ry+'px';
+      requestAnimationFrame(animRing);
+    }
+    animRing();
+    document.querySelectorAll('a,button,.skill-card').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.style.width='6px'; cursor.style.height='6px'; ring.style.width='52px'; ring.style.height='52px'; });
+      el.addEventListener('mouseleave', () => { cursor.style.width='10px'; cursor.style.height='10px'; ring.style.width='36px'; ring.style.height='36px'; });
+    });
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal, .timeline-item');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => obs.observe(el));
+
+    // Nav active
+    window.addEventListener('scroll', () => {
+      document.querySelectorAll('nav a[href^="#"]').forEach(a => {
+        const sec = document.querySelector(a.getAttribute('href'));
+        if (!sec) return;
+        const rect = sec.getBoundingClientRect();
+        if (rect.top <= 80 && rect.bottom >= 80) a.style.color = 'var(--accent)';
+        else a.style.color = '';
+      });
+    });
+
+    // Form submit (demo)
+    document.querySelector('.contact-form .btn').addEventListener('click', function() {
+      this.textContent = '✓ Sent!';
+      this.style.background = '#4ade80';
+      setTimeout(() => { this.textContent = 'Send Message'; this.style.background = ''; }, 3000);
+    });
+  </script>
+</body>
+</html>
