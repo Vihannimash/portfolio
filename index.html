@@ -6,6 +6,7 @@
   <title>Vihanga Mahagedara — IT Professional</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -198,15 +199,15 @@
       background: rgba(0, 212, 255, 0.1);
       transform: rotate(15deg) scale(1.1);
     }
-    .theme-toggle svg {
-      width: 20px; height: 20px;
+    .theme-toggle i {
+      font-size: 1.2rem;
       position: absolute;
       transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.3s;
     }
     .sun-icon { transform: translateY(30px); opacity: 0; }
-    .moon-icon { transform: translateY(0); opacity: 1; fill: currentColor; }
+    .moon-icon { transform: translateY(0); opacity: 1; }
     
-    [data-theme="light"] .sun-icon { transform: translateY(0); opacity: 1; stroke: currentColor; stroke-width: 2;}
+    [data-theme="light"] .sun-icon { transform: translateY(0); opacity: 1; }
     [data-theme="light"] .moon-icon { transform: translateY(-30px); opacity: 0; }
 
     /* ── Hero ── */
@@ -451,12 +452,14 @@
     .skill-card:hover::before { left: 150%; }
     
     .skill-icon { 
-      font-size: 2.5rem; margin-bottom: 1rem; 
+      font-size: 2.8rem; margin-bottom: 1rem; 
       display: inline-block;
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      color: var(--accent);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
     }
     .skill-card:hover .skill-icon {
-      transform: scale(1.2) translateY(-5px);
+      transform: scale(1.15) translateY(-5px);
+      color: var(--text-heading);
     }
     .skill-name {
       font-size: .95rem; font-weight: 500;
@@ -655,8 +658,9 @@
       background: var(--bg2);
       border: 1px solid var(--border);
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; flex-shrink: 0;
+      font-size: 1.3rem; flex-shrink: 0;
       transition: all .3s;
+      color: var(--accent);
     }
     .contact-link:hover .contact-link-icon {
       border-color: var(--accent);
@@ -790,20 +794,8 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
-        <svg class="moon-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
+        <i class="ph-fill ph-moon moon-icon"></i>
+        <i class="ph-bold ph-sun sun-icon"></i>
       </button>
     </div>
   </nav>
@@ -844,39 +836,39 @@
       <h2 class="section-title">Skills &amp;<br>Capabilities</h2>
       <div class="skills-grid">
         <div class="skill-card glass-card reveal">
-          <div class="skill-icon">💻</div>
+          <i class="ph ph-code skill-icon"></i>
           <div class="skill-name">Software Development</div>
         </div>
         <div class="skill-card glass-card reveal" style="transition-delay: 0.1s;">
-          <div class="skill-icon">🌐</div>
+          <i class="ph ph-globe skill-icon"></i>
           <div class="skill-name">Web Development &amp; Designing</div>
         </div>
         <div class="skill-card glass-card reveal" style="transition-delay: 0.2s;">
-          <div class="skill-icon">🗄️</div>
+          <i class="ph ph-database skill-icon"></i>
           <div class="skill-name">Database Management</div>
         </div>
         <div class="skill-card glass-card reveal" style="transition-delay: 0.3s;">
-          <div class="skill-icon">🔌</div>
+          <i class="ph ph-plugs skill-icon"></i>
           <div class="skill-name">Networking &amp; IT Support</div>
         </div>
         <div class="skill-card glass-card reveal" style="transition-delay: 0.4s;">
-          <div class="skill-icon">🔧</div>
+          <i class="ph ph-wrench skill-icon"></i>
           <div class="skill-name">System Analysis &amp; Troubleshooting</div>
         </div>
         <div class="skill-card glass-card reveal" style="transition-delay: 0.5s;">
-          <div class="skill-icon">📈</div>
+          <i class="ph ph-trend-up skill-icon"></i>
           <div class="skill-name">Digital Marketing &amp; SEO</div>
         </div>
         <div class="skill-card glass-card reveal" style="transition-delay: 0.6s;">
-          <div class="skill-icon">🎨</div>
+          <i class="ph ph-bezier-curve skill-icon"></i>
           <div class="skill-name">UI/UX Design &amp; Prototyping</div>
         </div>
         <div class="skill-card glass-card reveal" style="transition-delay: 0.7s;">
-          <div class="skill-icon">📋</div>
+          <i class="ph ph-clipboard-text skill-icon"></i>
           <div class="skill-name">Project Coordination &amp; Docs</div>
         </div>
         <div class="skill-card glass-card reveal" style="transition-delay: 0.8s;">
-          <div class="skill-icon">🖨️</div>
+          <i class="ph ph-desktop skill-icon"></i>
           <div class="skill-name">POS Systems &amp; Hardware</div>
         </div>
       </div>
@@ -1153,19 +1145,19 @@
           </p>
           <div class="contact-links">
             <a class="contact-link" href="tel:+94753928664">
-              <div class="contact-link-icon">📞</div>
+              <div class="contact-link-icon"><i class="ph ph-phone"></i></div>
               +9475 392 8664
             </a>
             <a class="contact-link" href="mailto:vihanganimash836@gmail.com">
-              <div class="contact-link-icon">✉️</div>
+              <div class="contact-link-icon"><i class="ph ph-envelope"></i></div>
               vihanganimash836@gmail.com
             </a>
             <a class="contact-link" href="https://linkedin.com/in/vihanga-nimash-97013121a/" target="_blank">
-              <div class="contact-link-icon">🔗</div>
+              <div class="contact-link-icon"><i class="ph ph-linkedin-logo"></i></div>
               LinkedIn Profile
             </a>
             <a class="contact-link" href="#">
-              <div class="contact-link-icon">📍</div>
+              <div class="contact-link-icon"><i class="ph ph-map-pin"></i></div>
               Kiribathkumbura, Sri Lanka
             </a>
           </div>
