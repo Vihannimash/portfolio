@@ -335,70 +335,30 @@
       transform: translateY(-4px) scale(1.02);
     }
 
-    /* Hero photo */
+    /* Hero photo - Clean tracking image */
     .hero-photo-wrap {
-      display: flex; justify-content: center;
+      display: flex; justify-content: center; align-items: center;
       opacity: 0; animation: fadeIn .8s .4s forwards;
       perspective: 1000px;
     }
-    .hero-photo-frame {
-      position: relative;
-      width: 340px; height: 400px;
-      transition: transform 0.6s ease;
-      transform-style: preserve-3d;
-      animation: floatFrame 6s ease-in-out infinite alternate;
-    }
-    @keyframes floatFrame {
-      0% { transform: translateY(0) rotateY(0deg); }
-      100% { transform: translateY(-15px) rotateY(-5deg); }
+    
+    .hero-photo-image {
+      width: 380px; 
+      height: auto;
+      object-fit: cover;
+      /* Soft shadow to separate it from the background instead of a hard border */
+      filter: drop-shadow(0 15px 35px rgba(0,0,0,0.5));
+      /* Ultra-smooth transition specifically for the transform (mouse follow) */
+      transition: transform 0.1s ease-out, filter 0.5s ease;
+      will-change: transform;
     }
     
-    .hero-photo-frame::before {
-      content: '';
-      position: absolute; inset: -3px;
-      background: linear-gradient(135deg, var(--accent), transparent 50%, var(--gold));
-      clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 25px, 100% 100%, 25px 100%, 0 calc(100% - 25px));
-      z-index: -1;
-      animation: borderGlow 3s infinite alternate;
+    [data-theme="light"] .hero-photo-image {
+      filter: drop-shadow(0 15px 35px rgba(0,0,0,0.15));
     }
-    @keyframes borderGlow {
-      0% { opacity: 0.5; filter: blur(5px); }
-      100% { opacity: 1; filter: blur(10px); }
-    }
-    
-    .hero-photo-inner {
-      position: absolute; inset: 2px;
-      background: var(--bg3);
-      backdrop-filter: blur(10px);
-      clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 25px, 100% 100%, 25px 100%, 0 calc(100% - 25px));
-      overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .hero-photo-inner img {
-      width: 100%; height: 100%; object-fit: cover;
-      filter: grayscale(20%) contrast(1.05);
-      transition: filter 0.5s ease, transform 0.5s ease;
-    }
-    .hero-photo-frame:hover .hero-photo-inner img {
-      filter: grayscale(0%) contrast(1.1);
-      transform: scale(1.05);
-    }
-    .hero-photo-placeholder {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 7rem; color: var(--muted);
-      opacity: .3; letter-spacing: 5px;
-    }
-    .hero-badge {
-      position: absolute; bottom: -14px; right: -14px;
-      background: var(--glass-bg);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--accent);
-      padding: .6rem 1rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: .65rem; color: var(--text-heading);
-      letter-spacing: 1.5px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      transform: translateZ(30px);
+
+    .hero-photo-image:hover {
+      filter: drop-shadow(0 20px 40px rgba(0,212,255,0.25));
     }
 
     /* ── Sections ── */
@@ -769,7 +729,7 @@
       nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
       section { padding: 5rem 1.5rem; }
-      .hero-photo-frame { width: 260px; height: 320px; }
+      .hero-photo-image { width: 280px; }
       .hero-name { font-size: 3.5rem; }
       footer { flex-direction: column; gap: 1rem; text-align: center; }
     }
@@ -810,7 +770,7 @@
         <p class="hero-role">Software Engineer &amp; Web Developer</p>
         <p class="hero-desc">
           Enthusiastic IT professional with expertise in Software Development, Web Development,
-          Digital Marketing, Graphic Designing, Networking, and IT Support - building
+          Digital Marketing, Graphic Designing, Networking, and IT Support — building
           innovative digital solutions across domains.
         </p>
         <div class="status-dot">Available for opportunities</div>
@@ -820,13 +780,7 @@
         </div>
       </div>
       <div class="hero-photo-wrap">
-        <div class="hero-photo-frame">
-          <div class="hero-photo-inner">
-            <div class="hero-photo-inner">
-            <img src="profile.png" alt="Vihanga Mahagedara Profile Photo">
-            </div>
-          <div class="hero-badge">// IT PRO · 2021–PRESENT</div>
-        </div>
+        <img src="profile.png" alt="Vihanga Mahagedara" class="hero-photo-image">
       </div>
     </div>
   </section>
@@ -1210,18 +1164,18 @@
       localStorage.setItem('theme', newTheme);
     });
 
-    // ── 3D Tilt Hover Effect for Glass Cards ──
+    // ── 3D Tilt Hover Effect for Glass Cards (Not applied to hero image) ──
     const cards = document.querySelectorAll('.glass-card');
     cards.forEach(card => {
       card.addEventListener('mousemove', e => {
         const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left; // x position within the element.
-        const y = e.clientY - rect.top;  // y position within the element.
+        const x = e.clientX - rect.left; 
+        const y = e.clientY - rect.top;  
         
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
         
-        const rotateX = ((y - centerY) / centerY) * -8; // Max 8 deg rotation
+        const rotateX = ((y - centerY) / centerY) * -8; 
         const rotateY = ((x - centerX) / centerX) * 8;
         
         card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
@@ -1232,6 +1186,23 @@
       });
     });
 
+    // ── Hero Image Mouse Tracking Logic ──
+    const heroImage = document.querySelector('.hero-photo-image');
+    // Ensure we are on a device with a mouse before adding tracking
+    if(window.matchMedia("(pointer: fine)").matches && heroImage) {
+      document.addEventListener('mousemove', e => {
+        // Calculate a subtle shift based on mouse position relative to the center of the screen
+        const shiftX = (e.clientX - (window.innerWidth / 2)) * 0.02; 
+        const shiftY = (e.clientY - (window.innerHeight / 2)) * 0.02; 
+        
+        heroImage.style.transform = `translate(${shiftX}px, ${shiftY}px)`;
+      });
+      
+      heroImage.addEventListener('mouseleave', () => {
+        heroImage.style.transform = 'translate(0px, 0px)'; 
+      });
+    }
+
     // ── Project filter ──
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', function() {
@@ -1239,7 +1210,6 @@
         this.classList.add('active');
         const filter = this.dataset.filter;
         document.querySelectorAll('.project-card').forEach(card => {
-          // Reset transform for smooth filter animation
           card.style.transform = 'scale(0.9)';
           card.style.opacity = '0';
           
@@ -1279,7 +1249,7 @@
       }
       animRing();
       
-      document.querySelectorAll('a, button, .glass-card, .filter-btn').forEach(el => {
+      document.querySelectorAll('a, button, .glass-card, .filter-btn, .hero-photo-image').forEach(el => {
         el.addEventListener('mouseenter', () => { 
           cursor.style.width='6px'; cursor.style.height='6px'; 
           ring.style.width='52px'; ring.style.height='52px'; 
@@ -1311,7 +1281,6 @@
     // ── Nav active & Glass Blur on Scroll ──
     const nav = document.querySelector('nav');
     window.addEventListener('scroll', () => {
-      // Dynamic nav shadow
       if (window.scrollY > 50) {
         nav.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
       } else {
